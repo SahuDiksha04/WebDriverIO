@@ -6,7 +6,7 @@ Click on checkout.
 Click on order now.
 Order should be displayed.*/
 
-describe('My Login application', async() => {
+describe('Navigate to the application', async() => {
    it('Login to the application', async()=>{
    await browser.maximizeWindow();
    await browser.url("http://testingserver/domain/Online_Food_Ordering_System/index.php");
@@ -17,12 +17,12 @@ describe('My Login application', async() => {
    await  browser.$(`//input[@placeholder="Username"]`).setValue("abcd xyz");
    await  browser.$(`//input[@name="password"]`).setValue("123456");
    await  browser.$(`//input[@name="submit"]`).click();
-   await browser.pause('5000');
+   await (await browser.$('//a[.="Restaurants "]')).waitForDisplayed();
   })
 
    it('Choose restaurant', async()=>{
    await browser.$('//a[.="Restaurants "]').click();
-   //expect(browser).toHaveTitleContaining("Restaurants");
+   await expect(browser).toHaveTitleContaining("Restaurants");
    await browser.$('//a[text()="North Street Tavern"]').click();
    expect(browser).toHaveTitleContaining("Dishes");
    await browser.$('//a[contains(text(),"Yorkshire Lamb Patties")]/../../../../..//input[@value="Add To Cart"]').click();
@@ -47,6 +47,5 @@ describe('My Login application', async() => {
    await browser.$(`//input[@value='Order Now']`).click();
    browser.acceptAlert();
    browser.acceptAlert();
-   await browser.pause('5000');
    })
 })
