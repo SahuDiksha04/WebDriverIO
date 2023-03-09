@@ -22,7 +22,7 @@ describe('Navigate to the application', async() => {
 
    it('Choose restaurant', async()=>{
    await browser.$('//a[.="Restaurants "]').click();
-   await expect(browser).toHaveTitleContaining("Restaurants");
+   expect(browser).toHaveTitleContaining("Restaurants");
    await browser.$('//a[text()="North Street Tavern"]').click();
    expect(browser).toHaveTitleContaining("Dishes");
    await browser.$('//a[contains(text(),"Yorkshire Lamb Patties")]/../../../../..//input[@value="Add To Cart"]').click();

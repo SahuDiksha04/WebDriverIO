@@ -5,7 +5,7 @@ Verify menu is added.*/
 describe('Food ordering application', async()=>{
     let rm=Math.floor(Math.random()*(99-10)+10)
     let dishName='Noodles'+rm
-    let reataurantName="YourOwnChoice"
+    let restaurantName="YourOwnChoice"
     let price ="10"
       it('Login to the admin page', async()=>{
           await browser.maximizeWindow()
@@ -25,7 +25,7 @@ describe('Food ordering application', async()=>{
         await browser.$(`//input[@name="about"]`).setValue("fgg");
         await browser.$(`//input[@name="price"]`).setValue(price);
         await browser.$(`//input[@id="lastName"]`).setValue("C:/Users/CHINMAY/Desktop/webdriverIO/Sample_test/restua.jpg");
-        await browser.$(`//select[@name="res_name"]`).selectByVisibleText(reataurantName);
+        await browser.$(`//select[@name="res_name"]`).selectByVisibleText(restaurantName);
         await browser.$(`//input[@name="submit"]`).click();
         expect(browser.getTitle()).toHaveTitleContaining("Add Menu");
         //let vl = "New Dish Added Successfully."

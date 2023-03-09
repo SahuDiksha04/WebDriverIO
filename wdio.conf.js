@@ -1,3 +1,5 @@
+import expect from "chai"
+
 export const config = {
     //
     // ====================
@@ -66,6 +68,7 @@ export const config = {
             
             browserName: 'chrome',
             acceptInsecureCerts: true,
+            //port:4444,
             
     'goog:chromeOptions': {
                 prefs: {
@@ -77,7 +80,17 @@ export const config = {
         // it is possible to configure which logTypes to include/exclude.
         // excludeDriverLogs: ['*'], // pass '*' to exclude all driver session logs
         // excludeDriverLogs: ['bugreport', 'server'],
-    }],
+
+    }/* ,
+    {maxInstances: 5,
+            
+        browserName: 'firefox',
+        acceptInsecureCerts: true,
+        
+
+    } */
+    
+],
     //
     // ===================
     // Test Configurations
@@ -148,6 +161,11 @@ export const config = {
     // The only one supported by default is 'dot'
     // see also: https://webdriver.io/docs/dot-reporter
     reporters: ['spec'],
+    reporters: [['allure', {
+        outputDir: 'allure-results',
+        disableWebdriverStepsReporting: true,
+        disableWebdriverScreenshotsReporting: false,
+    }]],
 
 
     
@@ -156,7 +174,7 @@ export const config = {
     // See the full list at http://mochajs.org/
     mochaOpts: {
         ui: 'bdd',
-        timeout: 60000
+        timeout: 120000
     },
     //
     // =====
@@ -234,8 +252,9 @@ export const config = {
      * Hook that gets executed _before_ a hook within the suite starts (e.g. runs before calling
      * beforeEach in Mocha)
      */
-    // beforeHook: function (test, context) {
-    // },
+     beforeHook: function (test, context) {
+    global.expect=expect
+    },
     /**
      * Hook that gets executed _after_ a hook within the suite starts (e.g. runs after calling
      * afterEach in Mocha)
@@ -252,8 +271,14 @@ export const config = {
      * @param {Boolean} result.passed    true if test has passed, otherwise false
      * @param {Object}  result.retries   informations to spec related retries, e.g. `{ attempts: 0, limit: 0 }`
      */
-    // afterTest: function(test, context, { error, result, duration, passed, retries }) {
+     afterTest: //function(test, context, { error, result, duration, passed, retries }) {
+        
     // },
+     async function (step, scenario, { error, duration, passed }, context) {
+        if (error) {
+          await browser.takeScreenshot();
+        }
+      }
 
 
     /**

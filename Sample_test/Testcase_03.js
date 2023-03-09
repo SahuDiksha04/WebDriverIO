@@ -7,28 +7,31 @@ describe('Food ordering application', async()=>{
   let rm=Math.floor(Math.random()*(99-10)+10)
   let categoryName='chinese'+rm
   let reataurantName="YourOwnChoice"
+  let email="yoc@gmail.com"+rm
+  let phoneNo="9586364589"+rm
+  let url="www.yourownchoice.com"+rm
+      
     it('Login to the admin page', async()=>{
         await browser.maximizeWindow()
         await browser.url("http://testingserver/domain/Online_Food_Ordering_System/admin/");
         await  browser.$('//input[@name="username"]').setValue("admin");
         await  browser.$('//input[@name="password"]').setValue("codeastro");
         await  browser.$('//input[@value="Login"]').click();
-        await  browser.$(`//span[contains(.,'Restaurant')]`).click();
+        await  browser.$('span*=Restaurant').click();
         expect(browser).toHaveTitleContaining("Admin Panel");
-        await browser.$(`//span[contains(.,'Restaurant')]`).click();
-        browser.pause('5000')
-
+        await browser.$('span*=Restaurant').click();
+        await  (await browser.$('//a[.="Add Category"]')).waitForDisplayed();
     })
 
-      it.skip('Add category', async()=>{
+      it('Add category', async()=>{
         await  browser.$('//a[.="Add Category"]').click();
         await browser.$('//input[@ name="c_name"]').setValue(categoryName);
         await  browser.$('//input[@value="Save"]').click();
         expect(browser).toHaveTitleContaining("Add Category");
      })
 
-     it.skip('verify category is created', async()=>{
-      let rs=await (await browser.$(`//td[text()="${categoryName}"]`)).isDisplayed()
+     it('verify category is created', async()=>{
+      let rs=await browser.$(`//td[text()="${categoryName}"]`).isDisplayed()
       expect(rs).toBe(true);
      })
  
@@ -36,9 +39,9 @@ describe('Food ordering application', async()=>{
         await  browser.$('//a[text()="Add Restaurant"]').click();
         expect(browser).toHaveTitleContaining("Add Restaurant")
         await browser.$('//input[@name="res_name"]').setValue(reataurantName);
-        await browser.$('//input[@name="email"]').setValue("yoc@gmail.com");
-        await browser.$('//input[@name="phone"]').setValue("9586364589");
-        await browser.$('//input[@name="url"]').setValue("www.yourownchoice.com");
+        await browser.$('//input[@name="email"]').setValue(email);
+        await browser.$('//input[@name="phone"]').setValue(phoneNo);
+        await browser.$('//input[@name="url"]').setValue(url);
         await browser.$('//select[@name="o_hr"]').selectByVisibleText("7am");
         await browser.$('//select[@name="c_hr"]').selectByVisibleText("10pm");
         await browser.$('//select[@name="o_days"]').selectByVisibleText("Mon-Sat");
@@ -52,8 +55,9 @@ describe('Food ordering application', async()=>{
       })
  
       it('Verify restuarant is created', async()=>{
-        await (await browser.$('*=All Restaurant')).waitForClickable();
-        await (await browser.$('*=All Restaurant')).click()
+        await (await browser.$(`*=Restaurant`)).click()
+        await (await browser.$(`//a[contains(.,"All Restaurants")]`)).waitForClickable()
+        await (await browser.$(`//a[contains(.,"All Restaurants")]`)).click()
         let txt=await browser.$('//tbody/tr/td[.="YourOwnChoice"]').getText();
         console.log(txt);
         await expect(reataurantName).toContain(txt);
