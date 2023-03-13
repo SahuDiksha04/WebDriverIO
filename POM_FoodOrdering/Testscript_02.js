@@ -50,11 +50,11 @@ describe('Navigate to the application', async() => {
     expect(fvalue).toBeGreaterThan(ivalue);
     })
     
-    /* it('Checkout', async()=>{
+    it('Checkout', async()=>{
     await dishesPage.clickOn_Checkout()
     await dishesPage.clickOn_OrderNow()
     browser.acceptAlert();
     browser.acceptAlert();
-    }) */
+    }) 
  })
  
